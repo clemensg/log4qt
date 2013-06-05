@@ -76,7 +76,9 @@ namespace Log4Qt
 	    if (format == QLatin1String("ABSOLUTE"))
 	        format = QLatin1String("HH:mm:ss.zzz");
 	    if (format == QLatin1String("DATE"))
-	        format = QLatin1String("dd MMM YYYY HH:mm:ss.zzzz");
+	        format = QLatin1String("dd MMM yyyy HH:mm:ss.zzzz");
+      if (format == QLatin1String("DATETIMESECS"))
+	        format = QLatin1String("dd.MM.yyyy hh:mm:ss");
 	    
 	    return formatDateTime(format);
 	}

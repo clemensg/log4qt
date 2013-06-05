@@ -442,6 +442,7 @@ namespace Log4Qt
 	QDebug operator<<(QDebug debug, 
 	                  const Factory &rFactory)
 	{
+    Q_UNUSED(rFactory); /* FIXME */
 		debug.nospace() << "Factory("
 			<< "appenderfactories:" << rFactory.registeredAppenders()
 			<< "filterfactories:" << rFactory.registeredFilters()

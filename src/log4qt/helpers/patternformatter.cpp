@@ -451,7 +451,6 @@ namespace Log4Qt
 		
 		int i = 0;
 		QChar c;
-		char ch;
 		State state = LITERAL_STATE;
 		FormattingInfo formatting_info;
 		QString literal;
@@ -466,7 +465,7 @@ namespace Log4Qt
 			// continue is used to change state without consuming the character
 			
 			c = mPattern.at(i);
-			ch = c.toLatin1();
+			char ch = c.toLatin1();
 	        switch (state) 
 	        {
 	            case LITERAL_STATE:

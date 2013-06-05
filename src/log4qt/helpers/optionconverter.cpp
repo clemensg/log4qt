@@ -84,11 +84,10 @@ namespace Log4Qt
         QString result = QLatin1String("");
         
         int i = 0;
-        int begin;
         int end;
         while (i < value.length())
         {
-            begin = value.indexOf(begin_subst, i);
+            int begin = value.indexOf(begin_subst, i);
             if (begin == -1)
             {
                 result += value.mid(i);

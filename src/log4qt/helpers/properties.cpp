@@ -181,7 +181,6 @@ namespace Log4Qt
 		
 		int i = 0;
 		QChar c;
-		char ch;
 		State state = KEY_STATE;
 		QString key;
 		QString value;
@@ -197,7 +196,7 @@ namespace Log4Qt
 			// continue is used to change state without consuming the character
 	
 			c = rProperty.at(i);
-			ch = c.toLatin1();
+			char ch = c.toLatin1();
 			
 	        switch (state)
 	        {
