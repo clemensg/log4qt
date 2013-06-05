@@ -36,6 +36,7 @@
 #include "log4qt/layout.h"
 #include "log4qt/loggingevent.h"
 #if defined(Q_WS_WIN) || defined(Q_OS_WIN32)
+  #define NOMINMAX
   #include <Windows.h>
 #endif
 
