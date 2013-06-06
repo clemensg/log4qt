@@ -6,12 +6,12 @@
  * author:      Martin Heinrich
  *
  *
- * changes:		Sep 2008, Martin Heinrich:
- * 				- Added a compile time version check for the Qt version
- * 				Jan 2009, Martin Heinrich:
- * 				- Updated documentation and version information for version 0.2
- * 				Feb 2009, Martin Heinrich:
- * 				- Updated version information for version 0.3
+ * changes:   Sep 2008, Martin Heinrich:
+ *        - Added a compile time version check for the Qt version
+ *        Jan 2009, Martin Heinrich:
+ *        - Updated documentation and version information for version 0.2
+ *        Feb 2009, Martin Heinrich:
+ *        - Updated version information for version 0.3
  *
  *
  * Copyright 2007 - 2009 Martin Heinrich
@@ -526,7 +526,7 @@
 #include <QtCore/qglobal.h>
 
 #if QT_VERSION < QT_VERSION_CHECK(4, 3, 0)
-#	error "Log4Qt requires Qt version 4.3.0 or higher"
+# error "Log4Qt requires Qt version 4.3.0 or higher"
 #endif
 
 
@@ -537,75 +537,73 @@
 /*!
  * \brief The namespace %Log4Qt encloses all parts of the package.
  */
-namespace Log4Qt
-{
-    /*!
-     * This macro expands a numeric value of the form 0xMMmmPP (MM = major,
-     * mm = minor, PP = patch) that specifies Log4Qt's version number.
-     * This is the version against which the application is compiled.
-     *
-     * \sa \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR",
-     *     \ref Log4Qt::LogManager::version() "LogManager::version()"
-     */
-    #define LOG4QT_VERSION 0x000200
+namespace Log4Qt {
+/*!
+ * This macro expands a numeric value of the form 0xMMmmPP (MM = major,
+ * mm = minor, PP = patch) that specifies Log4Qt's version number.
+ * This is the version against which the application is compiled.
+ *
+ * \sa \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR",
+ *     \ref Log4Qt::LogManager::version() "LogManager::version()"
+ */
+#define LOG4QT_VERSION 0x000200
 
-    /*!
-     * The macro expands to a string that specifies the Log4Qt's version
-     * number. This is the version against which the application is compiled.
-     *
-     * \sa \ref Log4Qt::LOG4QT_VERSION "LOG4QT_VERSION",
-     *     \ref Log4Qt::LogManager::version() "LogManager::version()"
-     */
-    #define LOG4QT_VERSION_STR "0.3.0"
+/*!
+ * The macro expands to a string that specifies the Log4Qt's version
+ * number. This is the version against which the application is compiled.
+ *
+ * \sa \ref Log4Qt::LOG4QT_VERSION "LOG4QT_VERSION",
+ *     \ref Log4Qt::LogManager::version() "LogManager::version()"
+ */
+#define LOG4QT_VERSION_STR "0.3.0"
 
-	enum ErrorCode
-	{
-		OK = 0,
-	    // AppenderSkeleton, FileAppender, WriterAppender
-	    APPENDER_ACTIVATE_MISSING_LAYOUT_ERROR,
-        APPENDER_ACTIVATE_MISSING_WRITER_ERROR,
-        APPENDER_ACTIVATE_MISSING_FILE_ERROR,
-	    APPENDER_CLOSED_ERROR,
-	    APPENDER_INVALID_PATTERN_ERROR,
-	    APPENDER_NO_OPEN_FILE_ERROR,
-	    APPENDER_NOT_ACTIVATED_ERROR,
-	    APPENDER_OPENING_FILE_ERROR,
-	    APPENDER_RENAMING_FILE_ERROR,
-	    APPENDER_REMOVE_FILE_ERROR,
-	    APPENDER_USE_INVALID_PATTERN_ERROR,
-	    APPENDER_USE_MISSING_LAYOUT_ERROR,
-	    APPENDER_USE_MISSING_WRITER_ERROR,
-	    APPENDER_WRITING_FILE_ERROR,
-        // Level
-        LEVEL_INVALID_LEVEL_STRING,
-        // Layouts, PatternFormatter
-	    LAYOUT_EXPECTED_DIGIT_ERROR,
-	    LAYOUT_OPTION_IS_NOT_INTEGER_ERROR,
-	    LAYOUT_INTEGER_IS_NOT_POSITIVE_ERROR,
-        // Logger
-        LOGGER_INVALID_LEVEL_FOR_ROOT,
-	    // PropertyConfigurator, OptionHandler
-        CONFIGURATOR_OPENING_FILE_ERROR,
-        CONFIGURATOR_READING_FILE_ERROR,
-        CONFIGURATOR_INVALID_SUBSTITUTION_ERROR,
-        CONFIGURATOR_INVALID_OPTION_ERROR,
-        CONFIGURATOR_MISSING_APPENDER_ERROR,
-        CONFIGURATOR_UNKNOWN_APPENDER_CLASS_ERROR,
-        CONFIGURATOR_MISSING_LAYOUT_ERROR,
-        CONFIGURATOR_UNKNOWN_LAYOUT_CLASS_ERROR,
-        CONFIGURATOR_PROPERTY_ERROR,
-        CONFIGURATOR_UNKNOWN_TYPE_ERROR
-	};
+enum ErrorCode {
+  OK = 0,
+  // AppenderSkeleton, FileAppender, WriterAppender
+  APPENDER_ACTIVATE_MISSING_LAYOUT_ERROR,
+  APPENDER_ACTIVATE_MISSING_WRITER_ERROR,
+  APPENDER_ACTIVATE_MISSING_FILE_ERROR,
+  APPENDER_CLOSED_ERROR,
+  APPENDER_INVALID_PATTERN_ERROR,
+  APPENDER_NO_OPEN_FILE_ERROR,
+  APPENDER_NOT_ACTIVATED_ERROR,
+  APPENDER_OPENING_FILE_ERROR,
+  APPENDER_RENAMING_FILE_ERROR,
+  APPENDER_REMOVE_FILE_ERROR,
+  APPENDER_USE_INVALID_PATTERN_ERROR,
+  APPENDER_USE_MISSING_LAYOUT_ERROR,
+  APPENDER_USE_MISSING_WRITER_ERROR,
+  APPENDER_WRITING_FILE_ERROR,
+  // Level
+  LEVEL_INVALID_LEVEL_STRING,
+  // Layouts, PatternFormatter
+  LAYOUT_EXPECTED_DIGIT_ERROR,
+  LAYOUT_OPTION_IS_NOT_INTEGER_ERROR,
+  LAYOUT_INTEGER_IS_NOT_POSITIVE_ERROR,
+  // Logger
+  LOGGER_INVALID_LEVEL_FOR_ROOT,
+  // PropertyConfigurator, OptionHandler
+  CONFIGURATOR_OPENING_FILE_ERROR,
+  CONFIGURATOR_READING_FILE_ERROR,
+  CONFIGURATOR_INVALID_SUBSTITUTION_ERROR,
+  CONFIGURATOR_INVALID_OPTION_ERROR,
+  CONFIGURATOR_MISSING_APPENDER_ERROR,
+  CONFIGURATOR_UNKNOWN_APPENDER_CLASS_ERROR,
+  CONFIGURATOR_MISSING_LAYOUT_ERROR,
+  CONFIGURATOR_UNKNOWN_LAYOUT_CLASS_ERROR,
+  CONFIGURATOR_PROPERTY_ERROR,
+  CONFIGURATOR_UNKNOWN_TYPE_ERROR
+};
 
 
-	/******************************************************************************
-	 * Operators, Helpers
-	 ******************************************************************************/
+/******************************************************************************
+ * Operators, Helpers
+ ******************************************************************************/
 
 
-	/******************************************************************************
-	 * Inline
-	 ******************************************************************************/
+/******************************************************************************
+ * Inline
+ ******************************************************************************/
 
 
 } // namespace Log4Qt

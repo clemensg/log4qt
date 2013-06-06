@@ -32,151 +32,168 @@
 
 #include "log4qt/helpers/logobject.h"
 
-namespace Log4Qt
+namespace Log4Qt {
+/*!
+ * \brief The class LogObjectPtr implements automatic reference counting
+ *        for LogObject objects.
+ */
+template <class T>
+class LogObjectPtr {
+public:
+  /*!
+   * Constructs a 0 LogObject pointer.
+   */
+  LogObjectPtr();
+
+  /*!
+   * Constructs a LogObject pointer that points to the same object then
+   * \a rOther. The reference counter of the object is incremented by
+   * one.
+   */
+  LogObjectPtr(const LogObjectPtr<T> &rOther);
+
+  /*!
+   * Constructs a LogObject pointer that points to the object
+   * \a LogObject. The reference counter of the object is incremented by
+   * one.
+   */
+  LogObjectPtr(T *pLogObject);
+
+  /*!
+   * Assignment operator. Sets the LogObject pointer to point to the
+   * same object that \a rOther points to. The reference counter of the
+   * object the LogObjectPtr pointed to before the assignment is
+   * decremented by one. The reference counter of the object \a rOther
+   * is pointing to is incremented by one.
+   */
+  LogObjectPtr<T> &operator=(const LogObjectPtr<T> &rOther);
+
+  /*!
+   * Destructs the object. The reference counter of the object the
+   * LogObjectPtr points to is decremented by one.
+   */
+  ~LogObjectPtr();
+
+  /*!
+   * Assignment operator. Sets the LogObject pointer to point to the
+   * object \a pLogObject. The reference counter of the object the
+   * LogObjectPtr pointed to before the assignment is decremented by
+   * one. The reference counter of the object \a pLogObject is pointing
+   * to is incremented by one.
+   */
+  LogObjectPtr<T> &operator=(T *pLogObject);
+
+  /*!
+   * Arrow operator. Returns the LogObject the object points to.
+   */
+  T *operator->() const;
+
+  /*!
+   * Dereference operator. Returns a pointer to the LogObject the
+   * object points to.
+   */
+  T &operator*() const;
+
+  /*!
+   * Cast operator. Cast the object to the LogObject the object points
+   * to.
+   */
+  operator T *() const;
+
+private:
+  void retain() const;
+  void release() const;
+
+private:
+  T *mpLogObject;
+};
+
+
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
+
+
+/**************************************************************************
+ * Inline
+ **************************************************************************/
+
+template <class T>
+inline LogObjectPtr<T>::LogObjectPtr() :
+  mpLogObject(0)
+{}
+
+template <class T>
+inline LogObjectPtr<T>::LogObjectPtr(const LogObjectPtr<T> &rOther) :
+  mpLogObject(rOther.mpLogObject)
 {
-	/*!
-	 * \brief The class LogObjectPtr implements automatic reference counting
-	 *        for LogObject objects.
-	 */
-	template <class T>
-	class LogObjectPtr
-	{
-	public:
-		/*!
-		 * Constructs a 0 LogObject pointer.
-		 */
-		LogObjectPtr();
+  retain();
+}
 
-		/*!
-		 * Constructs a LogObject pointer that points to the same object then
-		 * \a rOther. The reference counter of the object is incremented by
-		 * one.
-		 */
-	    LogObjectPtr(const LogObjectPtr<T> &rOther);
+template <class T>
+inline LogObjectPtr<T>::LogObjectPtr(T *pLogObject) :
+  mpLogObject(pLogObject)
+{
+  retain();
+}
 
-		/*!
-		 * Constructs a LogObject pointer that points to the object
-		 * \a LogObject. The reference counter of the object is incremented by
-		 * one.
-		 */
-		LogObjectPtr(T *pLogObject);
+template <class T>
+inline LogObjectPtr<T> &LogObjectPtr<T>::operator=(const LogObjectPtr<T>
+    &rOther)
+{
+  rOther.retain();
+  release();
+  mpLogObject = rOther.mpLogObject;
+  return *this;
+}
 
-		/*!
-		 * Assignment operator. Sets the LogObject pointer to point to the
-		 * same object that \a rOther points to. The reference counter of the
-		 * object the LogObjectPtr pointed to before the assignment is
-		 * decremented by one. The reference counter of the object \a rOther
-		 * is pointing to is incremented by one.
-		 */
-	    LogObjectPtr<T> &operator=(const LogObjectPtr<T> &rOther);
+template <class T>
+inline LogObjectPtr<T>::~LogObjectPtr()
+{
+  release();
+}
 
-		/*!
-		 * Destructs the object. The reference counter of the object the
-		 * LogObjectPtr points to is decremented by one.
-		 */
-	    ~LogObjectPtr();
+template <class T>
+inline LogObjectPtr<T> &LogObjectPtr<T>::operator=(T *pLogObject)
+{
+  if (pLogObject)
+    reinterpret_cast<LogObject *>(pLogObject)->retain();
+  release();
+  mpLogObject = pLogObject;
+  return *this;
+}
 
-		/*!
-		 * Assignment operator. Sets the LogObject pointer to point to the
-		 * object \a pLogObject. The reference counter of the object the
-		 * LogObjectPtr pointed to before the assignment is decremented by
-		 * one. The reference counter of the object \a pLogObject is pointing
-		 * to is incremented by one.
-		 */
-	    LogObjectPtr<T> &operator=(T *pLogObject);
+template <class T>
+inline T *LogObjectPtr<T>::operator->() const
+{
+  return mpLogObject;
+}
 
-		/*!
-		 * Arrow operator. Returns the LogObject the object points to.
-		 */
-	    T *operator->() const;
+template <class T>
+inline T &LogObjectPtr<T>::operator*() const
+{
+  return *mpLogObject;
+}
 
-		/*!
-		 * Dereference operator. Returns a pointer to the LogObject the
-		 * object points to.
-		 */
-	    T &operator*() const;
+template <class T>
+inline LogObjectPtr<T>::operator T *() const
+{
+  return mpLogObject;
+}
 
-		/*!
-		 * Cast operator. Cast the object to the LogObject the object points
-		 * to.
-		 */
-	    operator T*() const;
+template <class T>
+inline void LogObjectPtr<T>::retain() const
+{
+  if (mpLogObject)
+    reinterpret_cast<LogObject *>(mpLogObject)->retain();
+}
 
-	private:
-		void retain() const;
-		void release() const;
-
-	private:
-		T *mpLogObject;
-	};
-
-
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
-
-
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
-
-	template <class T>
-	inline LogObjectPtr<T>::LogObjectPtr() :
-		mpLogObject(0)
-	{}
-
-	template <class T>
-	inline LogObjectPtr<T>::LogObjectPtr(const LogObjectPtr<T> &rOther) :
-		mpLogObject(rOther.mpLogObject)
-	{	retain();	}
-
-	template <class T>
-	inline LogObjectPtr<T>::LogObjectPtr(T *pLogObject) :
-		mpLogObject(pLogObject)
-	{	retain();	}
-
-	template <class T>
-	inline LogObjectPtr<T> &LogObjectPtr<T>::operator=(const LogObjectPtr<T> &rOther)
-	{	rOther.retain();
-	    release();
-	    mpLogObject = rOther.mpLogObject;
-	    return *this;	}
-
-	template <class T>
-	inline LogObjectPtr<T>::~LogObjectPtr()
-	{	release();	}
-
-	template <class T>
-	inline LogObjectPtr<T> &LogObjectPtr<T>::operator=(T *pLogObject)
-	{	if (pLogObject)
-			reinterpret_cast<LogObject *>(pLogObject)->retain();
-		release();
-		mpLogObject = pLogObject;
-		return *this;	}
-
-	template <class T>
-	inline T *LogObjectPtr<T>::operator->() const
-	{	return mpLogObject;	}
-
-	template <class T>
-	inline T &LogObjectPtr<T>::operator*() const
-	{	return *mpLogObject;	}
-
-	template <class T>
-	inline LogObjectPtr<T>::operator T*() const
-	{	return mpLogObject;	}
-
-	template <class T>
-	inline void LogObjectPtr<T>::retain() const
-	{	if (mpLogObject)
-			reinterpret_cast<LogObject *>(mpLogObject)->retain();	}
-
-	template <class T>
-	inline void LogObjectPtr<T>::release() const
-	{
-		if (mpLogObject)
-			reinterpret_cast<LogObject *>(mpLogObject)->release();
-	}
+template <class T>
+inline void LogObjectPtr<T>::release() const
+{
+  if (mpLogObject)
+    reinterpret_cast<LogObject *>(mpLogObject)->release();
+}
 
 } // namespace Log4Qt
 
